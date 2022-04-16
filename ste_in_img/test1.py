@@ -22,5 +22,5 @@ def runLengthEncoding(input):
    
 # Driver function
 if __name__ == "__main__":
-    input="wwwwaaadexxxxxx"
+    input="wwwwaaadexxxxx1x"
     print (runLengthEncoding(input))

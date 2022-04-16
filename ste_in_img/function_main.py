@@ -91,8 +91,3 @@ class RoundedButton(tk.Canvas):
 
 def func():
     print("Button pressed")
-
-root = tk.Tk()
-btn = RoundedButton(text="This is a \n rounded button", radius=300, btnbackground="#0078ff", btnforeground="#ffffff", clicked=func)
-btn.pack(expand=True, fill="both")
-root.mainloop()
