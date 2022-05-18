@@ -16,6 +16,7 @@ from tkinter import  filedialog
 from setuptools import Command
 from function_main import *
 import os
+path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
 root = Tk()
 root.geometry("1050x700")
 root.title("DECODE RLE")
@@ -64,7 +65,7 @@ root.config(menu=menubar)
 l1 = Label(root, text="Tách Tin Trong File Ảnh RLE ", bg="#f2f2f2",fg="red",font="(Arial)")
 l1.grid(row=0,column=4,padx=350)
 #footer
-load= Image.open("footer.png")
+load= Image.open(path + "footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=600)

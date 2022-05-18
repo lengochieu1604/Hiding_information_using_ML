@@ -4,7 +4,7 @@ import os
 
 from tkinter.filedialog import askopenfilename
 
-
+path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
 
 def donothing():
 	print("It's yet to come !")
@@ -54,7 +54,7 @@ button1 = Button(top ,text ="Browse File",bg="green" ,fg = "black",command=findf
 button1.pack(padx=50 , pady= 40)
 
 
-img = Image.open("brain.png")
+img = Image.open(path + "footer.png")
 img2 = img.resize((200,200),Image.ANTIALIAS)
 img3 = ImageTk.PhotoImage(img2)
 

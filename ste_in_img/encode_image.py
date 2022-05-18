@@ -16,6 +16,7 @@ from tkinter import  filedialog
 from setuptools import Command
 from function_main import *
 import os
+path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
 root = Tk()
 root.geometry("1050x700")
 root.title("ENCODE RLE")
@@ -246,7 +247,7 @@ btn_open_save_image = Button(root,width=10, text="Save", fg="red",activebackgrou
 btn_open_save_image.grid(row=16,column=3)
 
 #footer
-load= Image.open("footer.png")
+load= Image.open(path + "footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=600)
