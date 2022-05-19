@@ -1,3 +1,4 @@
+import string
 from tkinter import *
 from tkinter import messagebox
 from turtle import width
@@ -15,10 +16,16 @@ from pyparsing import col
 from tkinter import  filedialog
 from setuptools import Command
 from function_main import *
+import class1
+from test3 import *
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 import os
-root = Tk()
-root.geometry("1050x700")
+root = ttk.Window(themename="superhero")
+
+root.geometry("1070x700")
 root.title("ENCODE RLE")
+
 global  message
 global username
 global password
@@ -61,6 +68,7 @@ def showimage_en():
         lbl.image=img
         #dir_image.insert('fln')
         dir_image.insert('1.0',fln)
+        
 def showimage_de():
     
     fln=filedialog.askopenfilename(initialdir=os.getcwd(),title="Lựa chọn ảnh cần mã hóa",
@@ -116,7 +124,14 @@ def sel():
 def sel_hash():
    selection = "You selected the option " + str(var1.get())
    label1.config(text = selection)
-
+def output_image_rle():
+    rb =class1.RLEBitmap()
+    inputValue=dir_image.get("1.0","end-1c")
+    str = ''+inputValue   
+    rb.open_png(str)
+    fs =open('output\golfcourse.rle','w')
+    rb.write_rle_tostream(fs)
+    fs.close()
 menubar = Menu(root)
 
 filemenu = Menu(menubar, tearoff=0)
@@ -153,15 +168,13 @@ root.config(menu=menubar)
 
 l1 = Label(root, text="Giấu Tin Trong File Ảnh RLE ", bg="#f2f2f2",fg="red",font="(Arial)")
 l1.grid(row=0,column=1)
-""" 
-#image icon 
-load= Image.open("icons8-image-64.png")
-render = ImageTk.PhotoImage(load)
-img = Label(root, image=render)
-img.pack(side=LEFT)  """
+
 #select image
 l2 = Label(root, text="Chọn Ảnh ", bg="#f2f2f2",fg="black",font="(Arial)")
 l2.grid(row=1,column=0,pady=10)
+def retrieve_input():
+    dir_image_value=dir_image.get("1.0","end-1c")
+    print(dir_image_value)
 dir_image=Text(root,width=30,height=1)
 dir_image.grid(row=1,column=1)
 btn_open = Button(root,width=10, text="...", fg="red",activebackground = "red",command=showimage_en)  
@@ -234,7 +247,7 @@ Entry(root, textvariable=password ,show="*",relief='flat',
 
 """ dir_image=Text(root,width=30,height=1)
 dir_image.grid(row=14,column=1) """
-btn_open = Button(root,width=10, text="Finish", fg="red",activebackground = "red")  
+btn_open = Button(root,width=10, text="Finish", fg="red",activebackground = "red",command=output_image_rle)  
 btn_open.grid(row=14,column=3)
 
 #save folders
@@ -250,5 +263,28 @@ load= Image.open("footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=600)
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 root.mainloop()
