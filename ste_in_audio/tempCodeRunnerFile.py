@@ -1,0 +1,2 @@
+salt = '\x28\xAB\xBC\xCD\xDE\xEF\x00\x33'
+    # key = pwd + salt

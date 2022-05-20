@@ -16,7 +16,7 @@ from tkinter import  filedialog
 from setuptools import Command
 import os
 from hiding_audio import decoded_hiding_audio
-path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
+path = "./ste_in_img/"
 root = Tk()
 root.geometry("1050x700")
 root.title("DECODE RLE")
@@ -59,11 +59,11 @@ def decoded_audio():
     elif (name_messages_save.get('1.0','end').rstrip('\n') == ''):
         messagebox.showerror("Errors!","Vui nhập tên file!")
     else:
-      check = decoded_hiding_audio(dir_audio.get('1.0','end').rstrip('\n'),dir_folder.get('1.0','end').rstrip('\n')+name_messages_save.get('1.0','end').rstrip('\n'))
-      if (check == True):
-            messagebox.showinfo("Succesfull!","Tách tin vào Audio thành công!")
-      else:
-            messagebox.showerror("Errors!","Tách tin vào Audio thất bại!")
+        check = decoded_hiding_audio(dir_audio.get('1.0','end').rstrip('\n'),password.get(),dir_folder.get('1.0','end').rstrip('\n')+name_messages_save.get('1.0','end').rstrip('\n'))
+        if (check == True):
+                messagebox.showinfo("Succesfull!","Tách tin vào Audio thành công!")
+        else:
+                messagebox.showerror("Errors!","Tách tin vào Audio thất bại!")
 menubar = Menu(root)
 
 filemenu = Menu(menubar, tearoff=0)
@@ -117,20 +117,9 @@ l5 = Label(root, text="Encryption Algorithms Messages", bg="#f2f2f2",fg="red",fo
 l5.grid(row=4,column=1)
 
 var = IntVar()
-R1 = Radiobutton(root, text="1.RC2", variable=var, value=1,
+R1 = Radiobutton(root, text="1.DES", variable=var, value=1,
                   command=sel)
 R1.grid(row=5,column=0)
-
-R2 = Radiobutton(root, text="2.RC4", variable=var, value=2,
-                  command=sel)
-R2.grid(row=5,column=1)
-
-R3 = Radiobutton(root, text="3.DES", variable=var, value=3,
-                  command=sel)
-R3.grid(row=5,column=2)
-R4 = Radiobutton(root, text="4.Triple DES", variable=var, value=4,
-                  command=sel)
-R4.grid(row=5,column=3)
 
 label = Label(root,bg="#f2f2f2",fg="red")
 label.grid(row=6,column=1)
@@ -139,20 +128,10 @@ label.grid(row=6,column=1)
 l6 = Label(root, text="Hashing Algorithms Password", bg="red",fg="white",font="(Arial)",bd=1,relief="solid")
 l6.grid(row=row2,column=1)
 var1 = IntVar()
-R5 = Radiobutton(root, text="1.MD2", variable=var1, value=1,
+R5 = Radiobutton(root, text="1.MD5", variable=var1, value=1,
                   command=sel_hash)
 R5.grid(row=row2+1,column=0,padx=10)
 
-R6 = Radiobutton(root, text="2.MD4", variable=var1, value=2,
-                  command=sel_hash)
-R6.grid(row=row2+1,column=1)
-
-R7 = Radiobutton(root, text="3.MD5", variable=var1, value=3,
-                  command=sel_hash)
-R7.grid(row=row2+1,column=2)
-R8 = Radiobutton(root, text="4.SHA", variable=var1, value=4,
-                  command=sel_hash)
-R8.grid(row=row2+1,column=3,padx=10)
 label1 = Label(root,bg="#f2f2f2",fg="red")
 label1.grid(row=row2+2,column=1) 
 
