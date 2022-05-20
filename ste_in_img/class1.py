@@ -97,6 +97,7 @@ class RLEBitmap:
         
     #write the image in memory to file 
     def write_memory_tofile(self, filename):
+        filename=filename +'\image1.png'
         if (self.image != None):
             self.image.save(filename)
     
@@ -170,18 +171,4 @@ class RLEBitmap:
             stream.write('%i: %i\n' % (v))
         stream.write('\n')
         
-    
-#some tests
-#open up a PNG and write it to a RLE document
-rb = RLEBitmap()
-rb.open_png('input\golfcourse.png')
-fs = open('output\golfcourse.rle','w')
-rb.write_rle_tostream(fs)
-fs.close()
 
-#open up that same RLE file and write it out to PNG
-rb = RLEBitmap()
-fs = open('output\golfcourse.rle','r')
-rb.read_rle_fromstream(fs)
-fs.close()
-rb.write_memory_tofile('output\golfcourse_output.png')

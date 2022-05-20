@@ -79,26 +79,18 @@ def encode_enc(newimg, data):
             x += 1
 
 # Encode data into image
-def encode():
-    img = input("Enter image name(with extension) : ")
-    image = Image.open(img, 'r')
+def encode(img,data,new_img_name):
 
-    data = input("Enter data to be encoded : ")
+    image = Image.open(img, 'r')
     if (len(data) == 0):
         raise ValueError('Data is empty')
-
     newimg = image.copy()
     encode_enc(newimg, data)
-
-    new_img_name = input("Enter the name of new image(with extension) : ")
     newimg.save(new_img_name, str(new_img_name.split(".")[1].upper()))
 
 # Decode the data in the image
-def decode():
-    img = input("Enter image name(with extension) : ")
+def decode(img,data):
     image = Image.open(img, 'r')
-
-    data = ''
     imgdata = iter(image.getdata())
 
     while (True):
@@ -124,10 +116,10 @@ def main():
     a = int(input(":: Welcome to Steganography ::\n"
                         "1. Encode\n2. Decode\n"))
     if (a == 1):
-        encode()
+        encode('bg20.png','tranquanglinh','encode_bg20.png')
 
     elif (a == 2):
-        print("Decoded Word :  " + decode())
+        print("Decoded Word :  " + decode('encode_bg20.png',''))
     else:
         raise Exception("Enter correct input")
 
