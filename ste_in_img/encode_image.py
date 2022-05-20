@@ -26,8 +26,43 @@ from des import DesKey
 from Crypto.Cipher import DES
 from Crypto.Cipher import AES
 import base64
+import codecs
+import hashlib
+from Crypto.Cipher import AES
+from Crypto import Random
 
+import re
+import hashlib
+from Crypto.Cipher import AES
+from Crypto import Random
+BLOCK_SIZE = 16
+pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+def encrypt(plain_text, key):
+    private_key = hashlib.sha256(key.encode("utf-8")).digest()
+    plain_text = pad(plain_text)
+    print("After padding:", plain_text)
+    iv = Random.new().read(AES.block_size)
+    cipher = AES.new(private_key, AES.MODE_CBC, iv)
+    return base64.b64encode(iv + cipher.encrypt(plain_text))
+def decrypt(cipher_text, key):
+    private_key = hashlib.sha256(key.encode("utf-8")).digest()
+    cipher_text = base64.b64decode(cipher_text)
+    iv = cipher_text[:16]
+    cipher = AES.new(private_key, AES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(cipher_text[16:]))
+def decode_base64(data, altchars=b'+/'):
+    """Decode base64, padding being optional.
 
+    :param data: Base64 data as an ASCII byte string
+    :returns: The decoded byte string.
+
+    """
+    data = re.sub(rb'[^a-zA-Z0-9%s]+' % altchars, b'', data)  # normalize
+    missing_padding = len(data) % 4
+    if missing_padding:
+        data += b'='* (4 - missing_padding)
+    return base64.b64decode(data, altchars)
 
 
 
@@ -64,16 +99,16 @@ def donothing():
    filewin = Toplevel(root)
    button = Button(filewin, text="Do nothing button")
    button.pack()
-
 def showimage_en():
-    fln=filedialog.askopenfilename(initialdir=os.getcwd(),title="Lựa chọn ảnh cần mã hóa",
+    try:
+        fln=filedialog.askopenfilename(initialdir=os.getcwd(),title="Lựa chọn ảnh cần mã hóa",
     filetypes = (
         ('img files', '*.png'),
         ('All files', '*.*')
     ))
    
-    if fln!='':
-        title1=Label(root,text="Ảnh Gốc", highlightbackground="#7EC8E3", highlightthickness=3,fg="red")
+        if fln!='':
+            title1=Label(root,text="Ảnh Gốc", highlightbackground="#7EC8E3", highlightthickness=3,fg="red")
         title1.grid(row=1,column=5) 
         lbl=Label(root,highlightbackground="#7EC8E3", highlightthickness=3)
         lbl.grid(row=2,column=5) 
@@ -84,13 +119,38 @@ def showimage_en():
     
         lbl.config(image = img)
         lbl.image=img
-        #dir_image.insert('fln')
+        
+       
         dir_image.insert('1.0',fln)
         rb = class1.RLEBitmap()
         rb.open_png(fln)
         fs =open('output\golfcourse.rle','w')
         rb.write_rle_tostream(fs)
+    except:
+       messagebox.showinfo("","Ảnh Không Hợp Lệ")    
+       lbl.config(image = '')  
+    text = password.get()
+    signal=signal_en.get()
+    
+   
+    
+    if (int(str(var.get()))==1):
+            
+          des = DES.new(text.encode('utf8'), DES.MODE_ECB)
+
+          padded_text = pad(signal.encode('utf-8'))
+          encrypted_text = des.encrypt(padded_text)
+          encoded_signature = encrypted_text.hex()
+          decoded_signature = bytes.fromhex(encoded_signature)
+
+          """ print(encoded_signature)
+          print(des.decrypt(decoded_signature)) """
+          x=codecs.decode(des.decrypt(decoded_signature), 'UTF-8')
+          print(x)
         
+    
+    encode(fln,x,'encode_bg20.png')
+    decode('encode_bg20.png','')
 def showimage_de():
     
     fln=filedialog.askdirectory()
@@ -146,11 +206,11 @@ def open_text_file():
 def sel():
    if(int(str(var.get()))==1):
         selection = "Bạn đã chọn mã hóa DES"
-   if(int(str(var.get()))==2):
-        selection = "Bạn đã chọn mã hóa AES"
+   """ if(int(str(var.get()))==2):
+        selection = "Bạn đã chọn mã hóa AES" """
    label.config(text = selection)
 
-def sel_hash():
+""" def sel_hash():
    if(int(str(var1.get()))==1):
         selection = "Bạn đã chọn SHA1"
    if(int(str(var1.get()))==2):
@@ -159,7 +219,7 @@ def sel_hash():
         selection = "Bạn đã chọn MD5"
    if(int(str(var1.get()))==4):
         selection = "Bạn đã chọn SHA512"    
-   label1.config(text = selection)
+   label1.config(text = selection) """
     
 
 
@@ -199,10 +259,8 @@ def pad(text):
     n = len(text) % 8
     return text + (b' ' * n)
 #finish encode
-def finish_end():
+""" def finish_end():
     
-    check=TRUE
-    #label_error.delete("1.0","end")
     text = password.get()
     signal=signal_en.get()
     if(int(str(var1.get()))==1):
@@ -227,16 +285,14 @@ def finish_end():
         print(digest)
     try:    
         if(int(str(var.get()))==2):
-            
-            cipher_text = ''
-            cipher_text = base64.b64decode(cipher_text)
+            cipher_text = base64.b64decode(signal)
             decipher = AES.new(text.encode(), AES.MODE_ECB)
             print(decipher.decrypt(cipher_text)) 
             
 
         elif(int(str(var.get()))==1):
             
-            text1 = 'Python is the Best Language!'
+          
             
             des = DES.new(text.encode('utf8'), DES.MODE_ECB)
 
@@ -247,9 +303,9 @@ def finish_end():
             print(des.decrypt(encrypted_text))
     except:
         messagebox.showinfo("","Mật Khẩu Không Hợp lệ")
-
-        
-    #label_error.destroy()
+    
+    encode(dir_image_en_input,signal,'encode_bg20.png')    
+     """
 l1 = Label(root, text="Giấu Tin Trong File Ảnh RLE ", bg="#f2f2f2",fg="red",font="(Arial)")
 l1.grid(row=0,column=1)
 w= ttk.Checkbutton(root, bootstyle="danger-round-toggle")
@@ -262,7 +318,7 @@ def retrieve_input():
     print(dir_image_value)
 dir_image=Text(root,width=30,height=1)
 dir_image.grid(row=1,column=1)
-btn_open = ttk.Button(root,width=10, text="...",bootstyle=(SUCCESS, OUTLINE),command=showimage_en)  
+btn_open = ttk.Button(root,width=10, text="finish",bootstyle=(SUCCESS, OUTLINE),command=showimage_en)  
 btn_open.grid(row=1,column=3)
 #thong diep
 l3 = Label(root, text="Thông Điệp ", bg="#f2f2f2",fg="black",font="(Arial)")
@@ -289,14 +345,14 @@ var = IntVar()
 
 R3 = ttk.Radiobutton(root, text="1.DES", variable=var, value=1,bootstyle="danger",
                   command=sel)
-R3.grid(row=5,column=0)
-R4 = ttk.Radiobutton(root, text="2.AES", variable=var, value=2,bootstyle="danger",
+R3.grid(row=5,column=3)
+""" R4 = ttk.Radiobutton(root, text="2.AES", variable=var, value=2,bootstyle="danger",
                   command=sel)
-R4.grid(row=5,column=2)
+R4.grid(row=5,column=2) """
 
 label = Label(root,bg="#f2f2f2",fg="red")
 label.grid(row=6,column=1)
-#hasing Algorithms
+""" #hasing Algorithms
 l6 = Label(root, text="Hashing Algorithms", bg="red",fg="white",font="(Arial)",bd=1,relief="solid")
 l6.grid(row=row2,column=1)
 var1 = IntVar()
@@ -315,7 +371,7 @@ R8 = ttk.Radiobutton(root, text="4.SHA512", variable=var1, value=4,bootstyle="wa
                   command=sel_hash)
 R8.grid(row=row2+1,column=3,padx=10)
 label1 = Label(root,bg="#f2f2f2",fg="red")
-label1.grid(row=row2+2,column=1) 
+label1.grid(row=row2+2,column=1)  """
 
 #password
 l8 = Label(root, text="Mật Khẩu  ", bg="#f2f2f2",fg="black",font="(Arial)")
@@ -327,10 +383,7 @@ password_en=Entry(root, textvariable=password ,show="*",relief='flat',
                           highlightcolor='#4584F1',width=30).grid(row=14,column=1)
 
 
-""" dir_image=Text(root,width=30,height=1)
-dir_image.grid(row=14,column=1) """
-btn_open = ttk.Button(root,width=10, text="Finish", bootstyle=(INFO, OUTLINE),command=finish_end)  
-btn_open.grid(row=14,column=3)
+
 
 #save folders
 l9 = Label(root, text="Lưu Ảnh ", bg="#f2f2f2",fg="black",font="(Arial)")
