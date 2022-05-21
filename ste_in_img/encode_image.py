@@ -9,6 +9,8 @@ from matplotlib.pyplot import title
 import mysql.connector
 from subprocess import  call
 from PIL import ImageTk,Image
+from Crypto.Util.Padding import pad, unpad
+
 import easygui
 from tkinter import filedialog as fd
 from tkinter import ttk
@@ -30,39 +32,13 @@ import codecs
 import hashlib
 from Crypto.Cipher import AES
 from Crypto import Random
-
+from math import log10, sqrt
+import cv2
 import re
 import hashlib
 from Crypto.Cipher import AES
 from Crypto import Random
-BLOCK_SIZE = 16
-pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
-unpad = lambda s: s[:-ord(s[len(s) - 1:])]
-def encrypt(plain_text, key):
-    private_key = hashlib.sha256(key.encode("utf-8")).digest()
-    plain_text = pad(plain_text)
-    print("After padding:", plain_text)
-    iv = Random.new().read(AES.block_size)
-    cipher = AES.new(private_key, AES.MODE_CBC, iv)
-    return base64.b64encode(iv + cipher.encrypt(plain_text))
-def decrypt(cipher_text, key):
-    private_key = hashlib.sha256(key.encode("utf-8")).digest()
-    cipher_text = base64.b64decode(cipher_text)
-    iv = cipher_text[:16]
-    cipher = AES.new(private_key, AES.MODE_CBC, iv)
-    return unpad(cipher.decrypt(cipher_text[16:]))
-def decode_base64(data, altchars=b'+/'):
-    """Decode base64, padding being optional.
-
-    :param data: Base64 data as an ASCII byte string
-    :returns: The decoded byte string.
-
-    """
-    data = re.sub(rb'[^a-zA-Z0-9%s]+' % altchars, b'', data)  # normalize
-    missing_padding = len(data) % 4
-    if missing_padding:
-        data += b'='* (4 - missing_padding)
-    return base64.b64decode(data, altchars)
+import numpy as np
 
 
 
@@ -88,13 +64,25 @@ message=StringVar()
 # choose encode algorithm
 frame1 = Frame(root, highlightbackground="#7EC8E3", highlightthickness=3)
 frame1.grid(row=4,column=1)
-
+def print_selection():
+    if (var1.get() == 1) :
+       messagebox.showinfo("","Đã chọn giải mã ảnh ")
+       root.destroy()
+       call(["python","decode_image.py"])
+    
 #frame 2
 row2=10
 col2=1
 frame2 = Frame(root, highlightbackground="#5CD85A", highlightthickness=3)
 frame2.grid(row=row2,column=col2,pady=20)
-
+def PSNR(original, compressed):
+    mse = np.mean((original - compressed) ** 2)
+    if(mse == 0):  # MSE is zero means no noise is present in the signal .
+                  # Therefore PSNR have no importance.
+        return 100
+    max_pixel = 255.0
+    psnr = 20 * log10(max_pixel / sqrt(mse))
+    return psnr
 def donothing():
    filewin = Toplevel(root)
    button = Button(filewin, text="Do nothing button")
@@ -137,20 +125,34 @@ def showimage_en():
     if (int(str(var.get()))==1):
             
           des = DES.new(text.encode('utf8'), DES.MODE_ECB)
+                    
+          plain_text = pad1(signal)
+          ciphertext = des.encrypt(plain_text.encode())
+          encode_string= base64.b32encode(ciphertext)  
+          print(encode_string)
 
-          padded_text = pad(signal.encode('utf-8'))
-          encrypted_text = des.encrypt(padded_text)
-          encoded_signature = encrypted_text.hex()
-          decoded_signature = bytes.fromhex(encoded_signature)
-
-          """ print(encoded_signature)
-          print(des.decrypt(decoded_signature)) """
-          x=codecs.decode(des.decrypt(decoded_signature), 'UTF-8')
-          print(x)
-        
+          decrypted_string = des.decrypt(ciphertext)
+          print("The decrypted string is : ",decrypted_string.decode())
+          print(" is : ",encode_string.hex())
+    encode(fln,encode_string.hex(),'encode_bg20.png')    
+    original = cv2.imread(fln)
+    compressed = cv2.imread('encode_bg20.png', 1)
+    value = PSNR(original, compressed)
+    title2=Label(root,text="PNSR là"+str(value), highlightbackground="#7EC8E3", highlightthickness=3,fg="red")
+    title2.grid(row=3,column=5) 
+    title1=Label(root,text="Ảnh Đã Giấu Tin", highlightbackground="#7EC8E3", highlightthickness=3,fg="red")
+    title1.grid(row=1,column=7,padx=20) 
+    lbl=Label(root,highlightbackground="#7EC8E3", highlightthickness=3)
+    lbl.grid(row=2,column=7,padx=20) 
+    img=Image.open('encode_bg20.png')
+    resize_image = img.resize((200, 200))
+    img=ImageTk.PhotoImage(resize_image)
     
-    encode(fln,x,'encode_bg20.png')
-    decode('encode_bg20.png','')
+    lbl.config(image = img)
+    lbl.image=img
+    messagebox.showinfo("","Đã lưu vào ảnh mã hóa vào  :D:\python_hide_information\Hiding_information_using_ML\ste_in_img\encode_bg20.png") 
+    
+    #decode('encode_bg20.png','')
 def showimage_de():
     
     fln=filedialog.askdirectory()
@@ -258,6 +260,10 @@ root.config(menu=menubar)
 def pad(text):
     n = len(text) % 8
     return text + (b' ' * n)
+def pad1(text):
+    while(len(text) % 8 != 0):
+        text += ' '
+    return text
 #finish encode
 """ def finish_end():
     
@@ -308,7 +314,8 @@ def pad(text):
      """
 l1 = Label(root, text="Giấu Tin Trong File Ảnh RLE ", bg="#f2f2f2",fg="red",font="(Arial)")
 l1.grid(row=0,column=1)
-w= ttk.Checkbutton(root, bootstyle="danger-round-toggle")
+var1 = ttk.IntVar()
+w= ttk.Checkbutton(root, bootstyle="danger-round-toggle",command=print_selection,onvalue=1, offvalue=0,variable=var1)
 w.grid(row=0,column=3)
 #select image
 l2 = Label(root, text="Chọn Ảnh ", bg="#f2f2f2",fg="black",font="(Arial)")
@@ -385,13 +392,8 @@ password_en=Entry(root, textvariable=password ,show="*",relief='flat',
 
 
 
-#save folders
-l9 = Label(root, text="Lưu Ảnh ", bg="#f2f2f2",fg="black",font="(Arial)")
-l9.grid(row=16,column=0,pady=10)
-dir_image_save=Text(root,width=30,height=1)
-dir_image_save.grid(row=16,column=1)
-btn_open_save_image = ttk.Button(root,width=10, text="Save", bootstyle=(SUCCESS, OUTLINE),command=showimage_de)  
-btn_open_save_image.grid(row=16,column=3)
+
+
 
 #footer
 load= Image.open("footer.png")

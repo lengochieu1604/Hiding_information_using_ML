@@ -28,14 +28,20 @@ from Crypto.Cipher import DES
 from Crypto.Cipher import AES
 import base64
 from tkinter.filedialog import asksaveasfile
+
 def save():
-	Files = [('All Files', '*.*'),
-			('Python Files', '*.py'),
-			('Text Document', '*.txt')]
-	file = asksaveasfile(filetypes = Files, defaultextension = Files)
-   
+    fln=filedialog.asksaveasfilename(initialdir="/",
+                                                   title="lựa chọn file lưu txt",
+                                                   filetypes=(("Text files", "*.txt*"),
+    
+                                                             ("all files", "*.*")))
 
-
+    open(fln, "w").close()                                                          
+    file = open(fln,'a+')
+    file.write(signal_en.get() + '\n')
+    file.close() 
+    dir_image_1.insert('1.0',fln)
+    messagebox.showinfo("","Xuất File text thành công")    
 
 
 
@@ -79,7 +85,7 @@ def showimage_en():
     ))
    
         if fln!='':
-            title1=Label(root,text="Ảnh Gốc", highlightbackground="#7EC8E3", highlightthickness=3,fg="red")
+            title1=Label(root,text="Ảnh Đã Bị Giấu Tin", highlightbackground="#7EC8E3", highlightthickness=3,fg="red")
         title1.grid(row=1,column=5) 
         lbl=Label(root,highlightbackground="#7EC8E3", highlightthickness=3)
         lbl.grid(row=2,column=5) 
@@ -101,26 +107,20 @@ def showimage_en():
        messagebox.showinfo("","Ảnh Không Hợp Lệ")    
        lbl.config(image = '')  
     text = password.get()
-    signal=signal_en.get()
+    signal1=signal_en.get()
     
    
     
     if (int(str(var.get()))==1):
-            signal=decode('encode_bg20.png','')
-            print(signal)
+            signal1=decode('encode_bg20.png','')
+            decoded_signature = bytes.fromhex(signal1)
             des = DES.new(text.encode('utf8'), DES.MODE_ECB)
-
-            padded_text = pad(signal.encode('utf-8'))
-            encrypted_text = des.encrypt(padded_text)
-            encoded_signature = encrypted_text.hex()
-            decoded_signature = bytes.fromhex(encoded_signature)
-
             
-            x=codecs.decode(des.decrypt(decoded_signature), 'UTF-8')
-            print(x)
-    encode(fln,encoded_signature,'encode_bg20.png')
-    decode('encode_bg20.png','')
-
+            cipher_text = base64.b32decode(decoded_signature)
+            decrypted_string = des.decrypt(cipher_text)
+            print("The decrypted string is : ",decrypted_string.decode())
+            signal.insert(0,decrypted_string.decode())
+            
 
 def sel():
    if(int(str(var.get()))==1):
@@ -169,12 +169,20 @@ def pad(text):
     n = len(text) % 8
     return text + (b' ' * n)
 #finish encode
+def print_selection():
+    if (var1.get() == 1) :
+       messagebox.showinfo("","Đã chọn mã hóa ảnh ")
+       root.destroy()
+       call(["python","encode_image.py"])
+    
 
         
     #label_error.destroy()
+
 l1 = Label(root, text="Tách Tin Trong File Ảnh RLE ", bg="#f2f2f2",fg="red",font="(Arial)")
 l1.grid(row=0,column=1)
-w= ttk.Checkbutton(root, bootstyle="danger-round-toggle")
+var1 = ttk.IntVar()
+w= ttk.Checkbutton(root, bootstyle="danger-round-toggle",command=print_selection,onvalue=1, offvalue=0,variable=var1)
 w.grid(row=0,column=3)
 #select image
 l2 = Label(root, text="Chọn Ảnh ", bg="#f2f2f2",fg="black",font="(Arial)")

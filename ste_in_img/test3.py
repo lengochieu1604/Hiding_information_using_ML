@@ -110,21 +110,3 @@ def decode(img,data):
         data += chr(int(binstr, 2))
         if (pixels[-1] % 2 != 0):
             return data
-
-# Main Function
-def main():
-    a = int(input(":: Welcome to Steganography ::\n"
-                        "1. Encode\n2. Decode\n"))
-    if (a == 1):
-        encode('bg20.png','tranquanglinh','encode_bg20.png')
-
-    elif (a == 2):
-        print("Decoded Word :  " + decode('encode_bg20.png',''))
-    else:
-        raise Exception("Enter correct input")
-
-# Driver Code
-if __name__ == '__main__' :
-
-    # Calling main function
-    main()
