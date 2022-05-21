@@ -32,6 +32,3 @@ def decode_mess(our_message):
             j = j + 1
         i = i + 2
     return decoded_message
-
-print(encode_message("hello my name is: Long"))
-print(decode_mess("1h1e2l1o1 1m1y1 1n1a1m1e1 1i1s1:1 1L1o1n1g"))    

@@ -10,6 +10,8 @@ from PIL import ImageTk,Image
 import easygui
 from tkinter import filedialog as fd
 from tkinter import ttk
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 from tkinter.messagebox import showinfo
 from pyparsing import col
 from tkinter import  filedialog
@@ -31,6 +33,12 @@ row2=10
 col2=1
 frame2 = Frame(root, highlightbackground="#5CD85A", highlightthickness=3)
 frame2.grid(row=row2,column=col2,pady=20)
+
+def print_selection():
+    if (var1.get() == 0) :
+       messagebox.showinfo("Thông báo","Đã chọn giải mã audio ")
+       root.destroy()
+       call(["python","./ste_in_audio/decode_audio.py"])
 
 def donothing():
    filewin = Toplevel(root)
@@ -111,6 +119,10 @@ root.config(menu=menubar)
 
 l1 = Label(root, text="Giấu Tin Trong File Audio RLE ", bg="#f2f2f2",fg="red",font="(Arial)")
 l1.grid(row=0,column=1)
+
+var1 = ttk.IntVar()
+w= ttk.Checkbutton(root, bootstyle="danger-round-toggle",command=print_selection,onvalue=0, offvalue=1,variable=var1)
+w.grid(row=0,column=3)
 
 # Select audio
 l2 = Label(root, text="Chọn Audio ", bg="#f2f2f2",fg="black",font="(Arial)")

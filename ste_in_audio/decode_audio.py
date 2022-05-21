@@ -10,6 +10,8 @@ from PIL import ImageTk,Image
 import easygui
 from tkinter import filedialog as fd
 from tkinter import ttk
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 from tkinter.messagebox import showinfo
 from pyparsing import col
 from tkinter import  filedialog
@@ -20,6 +22,12 @@ path = "./ste_in_img/"
 root = Tk()
 root.geometry("1050x700")
 root.title("DECODE RLE")
+
+def print_selection():
+    if (var1.get() == 0) :
+       messagebox.showinfo("Thông báo","Đã chọn mã hóa audio ")
+       root.destroy()
+       call(["python","./ste_in_audio/encode_audio.py"])
 
 def donothing():
    filewin = Toplevel(root)
@@ -98,6 +106,11 @@ root.config(menu=menubar)
 
 l1 = Label(root, text="Tách Tin Trong File Audio RLE ", bg="#f2f2f2",fg="red",font="(Arial)")
 l1.grid(row=0,column=1)
+
+var1 = ttk.IntVar()
+w= ttk.Checkbutton(root, bootstyle="danger-round-toggle",command=print_selection,onvalue=1, offvalue=0,variable=var1)
+w.grid(row=0,column=3)
+
 #frame 2
 row2=10
 col2=1
