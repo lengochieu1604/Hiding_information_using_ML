@@ -174,7 +174,7 @@ name_messages_save.grid(row=18,column=1)
 btn_open = Button(root,width=10, text="Decoded", fg="red",activebackground = "red", command=decoded_audio)  
 btn_open.grid(row=18,column=3)
 #footer
-load= Image.open(path + "footer.png")
+load= Image.open("footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=600)
