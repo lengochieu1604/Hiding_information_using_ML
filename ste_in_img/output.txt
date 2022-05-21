@@ -1,0 +1,9 @@
+pip install easygui
+pip install matplotlib
+pip install opencv-python    
+pip install easygui
+pip install matplotlib
+pip install opencv-python    
+pip install easygui
+pip install matplotlib
+pip install opencv-python    

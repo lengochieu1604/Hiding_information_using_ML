@@ -1,12 +1,23 @@
+
 from tkinter import *
+from tkinter import messagebox
 from PIL import ImageTk,Image
+
 path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
+
+import mysql.connector
+from subprocess import  call
+
+
 
 root = Tk()
 root.geometry("600x600")
 root.title("Giao Diện Menu Chính")
 
-
+def image_en():
+   messagebox.showinfo("","Đã chọn mã hóa với ảnh ")
+   root.destroy()
+   call(["python","encode_image.py"])
 
  #display menu
 def donothing():
@@ -61,13 +72,13 @@ resize_image = image.resize((200, 200))
 decode_iamge=ImageTk.PhotoImage(resize_image )
 
 # button widget
-b1 = Button(root, text = "ENCODE",image=encode_iamge,height=200, width=200,bd=2, 
+b1 = Button(root, text = "AUDIO",image=encode_iamge,height=200, width=200,bd=2, 
                           highlightcolor='#4584F1')
-b2 = Button(root, text = "DECODE",image=decode_iamge,height=200, width=200,bd=2, relief='flat', 
+b2 = Button(root, text = "IMAGE",image=decode_iamge,height=200, width=200,bd=2, relief='flat', 
                           highlightthickness=1, 
                           highlightbackground="black", 
                          
-                          highlightcolor='#4584F1')
+                          highlightcolor='#4584F1',command=image_en)
 
 
 

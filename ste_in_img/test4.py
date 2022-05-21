@@ -1,69 +1,51 @@
-from tkinter import *
-from PIL import ImageTk,Image
-import os
 
-from tkinter.filedialog import askopenfilename
+from tkinter import * 
+from tkinter import filedialog as fd 
+from tkinter import messagebox as ms 
+from PIL import ImageTk, Image 
 
-path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
+#  Build A Image Viewer Now
+ 
+class Image_Viewer: 
+    
+    def __init__(self,master): 
+        self.master = master 
+        self.c_size = (700,500) 
+        self.setup_gui(self.c_size) 
+        self.img=None 
+    
+    def setup_gui(self,s): 
+        Label(self.master,text='Image Viewer',pady=5,bg='white', font=('Arial',30)).pack() 
+        self.canvas = Canvas(self.master,height=s[1],width=s[0], bg='Black',bd=10,relief='ridge')
+        self.canvas.pack() 
+        txt = '''
+                                     By Shrimad Mishra 
+                                          on behaf of 
+                                              CodeSpeedy
+                                ''' 
+        self.wt = self.canvas.create_text(s[0]/2-270,s[1]/2,text=txt ,font=('',30),fill='white') 
+        f=Frame(self.master,bg='white',padx=10,pady=10) 
+        Button(f,text='Open Image',bd=2,fg='white',bg='black',font=('',15) ,command=self.make_image).pack(side=LEFT) 
+        f.pack() 
 
-def donothing():
-	print("It's yet to come !")
-	
-	
+    def make_image(self):   
+        
+        try: 
+            File = fd.askopenfilename() 
+            pilImage = Image.open(File) 
+            re=self.pilImage.resize((700,500),Image.ANTIALIAS) 
+            self.img = ImageTk.PhotoImage(re) 
+            self.canvas.delete(ALL) 
+            self.canvas.create_image(self.c_size[0]/2+10,self.c_size[1]/2+10, anchor=CENTER,image=self.img) 
+            self.status['text']='Current Image:'+File 
+        
+        except: 
+            ms.showerror('Error!','File type is unsupported.') 
 
-def findfile():
-	#top.withdraw()
-	# we don't want a full GUI, so keep the root window from appearing
-	filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+root=Tk() 
+root.configure(bg='white') 
+root.title('Image Viewer') 
+Image_Viewer(root) 
+root.resizable(0,0) 
+root.mainloop()
 
-	img = Image.open(filename)
-	img.show()
-
-
-top = Tk()
-
-top.title("Brain Segmentation")
-top.configure(background='black')
-top.minsize(400,400)
-top.maxsize(500,500)
-
-menu = Menu(top,background='#000099', foreground='white',activebackground='#004c99', activeforeground='white')
-top.config(menu=menu)
-submenu = Menu(top,background="#fff719", foreground='black',activebackground='#eae319', activeforeground='black')
-menu.add_cascade(label = "File",menu = submenu)
-submenu.add_command(label="New Project",command = donothing)
-submenu.add_command(label="Find more",command=donothing)
-#submenu.add_separator()
-
-
-
-view = Menu(menu,background="#03a303", foreground='black',activebackground='#05bc05', activeforeground='black')
-menu.add_cascade(label="View",menu=view)
-view.add_command(label="View Source",command=donothing)
-
-
-exit = Menu(menu,background="#d60202", foreground='white',activebackground='#7c2704', activeforeground='white')
-menu.add_cascade(label="Exit",menu=exit)
-exit.add_command(label="Exit",command=top.quit)
-
-
-label1 = Label(top, text = "First You need to select a file !\nPress the button to select a file", bg = "red", fg = "black")
-label1.pack(padx =50, pady = 10)
-
-button1 = Button(top ,text ="Browse File",bg="green" ,fg = "black",command=findfile)
-button1.pack(padx=50 , pady= 40)
-
-
-img = Image.open(path + "footer.png")
-img2 = img.resize((200,200),Image.ANTIALIAS)
-img3 = ImageTk.PhotoImage(img2)
-
-panel = Label(top,image = img3)
-panel.pack()
-
-#img = ImageTk.PhotoImage(Image.open("brain.png"))
-#img.resize((40,40),Image.ANTIALIAS)
-#panel = Label(top, image = img)
-#panel.pack()
-
-top.mainloop()

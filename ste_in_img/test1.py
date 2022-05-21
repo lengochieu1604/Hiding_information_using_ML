@@ -1,26 +1,30 @@
-# Python code for run length encoding
-from collections import OrderedDict
-def runLengthEncoding(input):
-  
-    # Generate ordered dictionary of all lower
-    # case alphabets, its output will be 
-    # dict = {'w':0, 'a':0, 'd':0, 'e':0, 'x':0}
-    dict=OrderedDict.fromkeys(input, 0)
-  
-    # Now iterate through input string to calculate 
-    # frequency of each character, its output will be 
-    # dict = {'w':4,'a':3,'d':1,'e':1,'x':6}
-    for ch in input:
-        dict[ch] += 1
-  
-    # now iterate through dictionary to make 
-    # output string from (key,value) pairs
-    output = ''
-    for key,value in dict.items():
-         output = output + key + str(value)
-    return output
-   
-# Driver function
-if __name__ == "__main__":
-    input="vmy0xsTFucF1rKv/0Sep4g=="
-    print (runLengthEncoding(input))
+
+
+#Python 3.x
+import base64
+import hashlib
+from Crypto.Cipher import AES
+from Crypto import Random
+BLOCK_SIZE = 16
+pad = lambda s: s + (BLOCK_SIZE - len(s) % BLOCK_SIZE) * chr(BLOCK_SIZE - len(s) % BLOCK_SIZE)
+unpad = lambda s: s[:-ord(s[len(s) - 1:])]
+def encrypt(plain_text, key):
+    private_key = hashlib.sha256(key.encode("utf-8")).digest()
+    plain_text = pad(plain_text)
+    print("After padding:", plain_text)
+    iv = Random.new().read(AES.block_size)
+    cipher = AES.new(private_key, AES.MODE_CBC, iv)
+    return base64.b64encode(iv + cipher.encrypt(plain_text))
+def decrypt(cipher_text, key):
+    private_key = hashlib.sha256(key.encode("utf-8")).digest()
+    cipher_text = base64.b64decode(cipher_text)
+    iv = cipher_text[:16]
+    cipher = AES.new(private_key, AES.MODE_CBC, iv)
+    return unpad(cipher.decrypt(cipher_text[16:]))
+message=input("Enter message to encrypt: ");
+key = input("Enter encryption key: ")
+encrypted_msg = encrypt(message, key)
+print("Encrypted Message:", encrypted_msg)
+decrypted_msg = decrypt(encrypted_msg, key)
+print("Decrypted Message:", bytes.decode(decrypted_msg))
+
