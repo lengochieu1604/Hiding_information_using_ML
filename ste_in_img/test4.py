@@ -1,3 +1,4 @@
+
 from tkinter import * 
 from tkinter import filedialog as fd 
 from tkinter import messagebox as ms 
@@ -47,3 +48,4 @@ root.title('Image Viewer')
 Image_Viewer(root) 
 root.resizable(0,0) 
 root.mainloop()
+

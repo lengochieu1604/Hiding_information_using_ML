@@ -24,6 +24,9 @@ from test3 import *
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import os
+
+
+
 from des import DesKey
 from Crypto.Cipher import DES
 from Crypto.Cipher import AES
@@ -52,6 +55,7 @@ x="superhero"
 root = ttk.Window(themename=x)
 
 root.geometry("1070x700")
+
 root.title("ENCODE RLE")
 
 global  message
@@ -396,7 +400,7 @@ password_en=Entry(root, textvariable=password ,show="*",relief='flat',
 
 
 #footer
-load= Image.open("footer.png")
+load= Image.open(path + "footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=620)

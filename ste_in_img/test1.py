@@ -1,3 +1,5 @@
+
+
 #Python 3.x
 import base64
 import hashlib
@@ -25,3 +27,4 @@ encrypted_msg = encrypt(message, key)
 print("Encrypted Message:", encrypted_msg)
 decrypted_msg = decrypt(encrypted_msg, key)
 print("Decrypted Message:", bytes.decode(decrypted_msg))
+

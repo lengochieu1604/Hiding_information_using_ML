@@ -22,6 +22,10 @@ from test3 import *
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import os
+
+path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
+root = Tk()
+
 import codecs
 from des import DesKey
 from Crypto.Cipher import DES
@@ -52,6 +56,7 @@ def save():
 
 x="superhero"
 root = ttk.Window(themename=x)
+
 root.geometry("1050x700")
 
 global  message
@@ -281,7 +286,7 @@ password_en=Entry(root, textvariable=password ,show="*",relief='flat',
 
 
 #footer
-load= Image.open("footer.png")
+load= Image.open(path + "footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=600)

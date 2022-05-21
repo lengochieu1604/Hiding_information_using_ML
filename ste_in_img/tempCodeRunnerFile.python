@@ -1,0 +1,2 @@
+""" dir_image=Text(root,width=30,height=1)
+dir_image.grid(row=14,column=1) """

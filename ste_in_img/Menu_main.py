@@ -2,8 +2,12 @@
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk,Image
+
+path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
+
 import mysql.connector
 from subprocess import  call
+
 
 
 root = Tk()
@@ -59,11 +63,11 @@ l1.grid(row = 0, column = 2,  pady = 0)
 
 
 
-image=Image.open("decode.png")
+image=Image.open(path + "decode.png")
 resize_image = image.resize((200,200))
 
 encode_iamge=ImageTk.PhotoImage(resize_image )
-image=Image.open("encode.png")
+image=Image.open(path + "encode.png")
 resize_image = image.resize((200, 200))
 decode_iamge=ImageTk.PhotoImage(resize_image )
 
@@ -78,7 +82,7 @@ b2 = Button(root, text = "IMAGE",image=decode_iamge,height=200, width=200,bd=2, 
 
 
 
-load= Image.open("footer.png")
+load= Image.open(path + "footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10, y=500)
