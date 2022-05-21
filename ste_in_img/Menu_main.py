@@ -17,6 +17,11 @@ def image_en():
    root.destroy()
    call(["python","encode_image.py"])
 
+def audio_en():
+   messagebox.showinfo("Thông báo","Đã chọn mã hóa với Audio ")
+   root.destroy()
+   call(["python","./ste_in_audio/encode_audio.py"])
+
  #display menu
 def donothing():
    filewin = Toplevel(root)
@@ -71,7 +76,7 @@ decode_iamge=ImageTk.PhotoImage(resize_image )
 
 # button widget
 b1 = Button(root, text = "AUDIO",image=encode_iamge,height=200, width=200,bd=2, 
-                          highlightcolor='#4584F1')
+                          highlightcolor='#4584F1', command=audio_en)
 b2 = Button(root, text = "IMAGE",image=decode_iamge,height=200, width=200,bd=2, relief='flat', 
                           highlightthickness=1, 
                           highlightbackground="black", 
