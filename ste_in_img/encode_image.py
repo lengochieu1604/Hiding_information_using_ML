@@ -400,7 +400,7 @@ password_en=Entry(root, textvariable=password ,show="*",relief='flat',
 
 
 #footer
-load= Image.open(path + "footer.png")
+load= Image.open("footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=620)
