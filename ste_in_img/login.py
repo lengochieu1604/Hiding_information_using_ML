@@ -3,10 +3,10 @@ from tkinter import messagebox
 from PIL import ImageTk, Image
 import mysql.connector
 from subprocess import  call
-path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
+
 #defining login function
 def login():
-    mysqldb=mysql.connector.connect(host="localhost",user="root",password="@Kingdom1zk",database="steganography")
+    mysqldb=mysql.connector.connect(host="localhost",user="root",password="",database="steganography")
     mysqlcursor=mysqldb.cursor()
     #getting form data
     uname=username.get()
@@ -19,7 +19,7 @@ def login():
     if results:
         messagebox.showinfo("","login success")
         login_screen.destroy()
-        call(["python",path + "Menu_main.py"])
+        call(["python","Menu_main.py"])
         return True
     else:
          messagebox.showinfo("","Incorrect username or password")
@@ -42,7 +42,7 @@ def Loginform():
 	#Creating layout of login form
     Label(login_screen,width="300", text="Học Viện Công Nghệ Bưu Chính Viễn Thông", bg="#f2f2f2",fg="red",font="(Arial)").pack()
     # Read the Image
-    image = Image.open(path + "logo.png")
+    image = Image.open("logo.png")
  
 # Resize the image using resize() method
     resize_image = image.resize((100, 100))
@@ -70,7 +70,7 @@ def Loginform():
     #Label for displaying login status[success/failed]
     Label(login_screen, text="",textvariable=message).place(x=95,y=280)
     #Login button
-    image = Image.open(path + "login.png")
+    image = Image.open("login.png")
     
 # Resize the image using resize() method
     resize_image = image.resize((100, 100))
@@ -79,7 +79,7 @@ def Loginform():
     Button(login_screen, text="Register",foreground ="red", width=10, height=1, bg="white",command=login).place(x=350,y=330)
     Label(login_screen, text="Forget Your Password ? Click Here",foreground="blue").place(x=300,y=360)
 
-    load= Image.open(path + "footer.png")
+    load= Image.open("footer.png")
     render = ImageTk.PhotoImage(load)
     img = Label(login_screen, image=render)
     img.place(x=-10, y=400)
