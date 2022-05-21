@@ -22,8 +22,6 @@ from test3 import *
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import os
-
-path = "C:/Users/Dell/Desktop/Hiding_information_using_ML/ste_in_img/"
 root = Tk()
 
 import codecs
@@ -286,7 +284,7 @@ password_en=Entry(root, textvariable=password ,show="*",relief='flat',
 
 
 #footer
-load= Image.open(path + "footer.png")
+load= Image.open("footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=600)
