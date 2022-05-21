@@ -4,10 +4,8 @@ from turtle import width
 from PIL import ImageTk,Image
 from matplotlib import image
 from matplotlib.pyplot import title
-import mysql.connector
 from subprocess import  call
 from PIL import ImageTk,Image
-import easygui
 from tkinter import filedialog as fd
 from tkinter import ttk
 import ttkbootstrap as ttk
@@ -24,7 +22,7 @@ root.geometry("1050x700")
 root.title("DECODE RLE")
 
 def print_selection():
-    if (var1.get() == 0) :
+    if (var1.get() == 0 or var1.get() == 1) :
        messagebox.showinfo("Thông báo","Đã chọn mã hóa audio ")
        root.destroy()
        call(["python","./ste_in_audio/encode_audio.py"])

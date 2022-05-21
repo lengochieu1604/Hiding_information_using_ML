@@ -4,10 +4,8 @@ from turtle import width
 from PIL import ImageTk,Image
 from matplotlib import image
 from matplotlib.pyplot import title
-import mysql.connector
 from subprocess import  call
 from PIL import ImageTk,Image
-import easygui
 from tkinter import filedialog as fd
 from tkinter import ttk
 import ttkbootstrap as ttk
@@ -37,7 +35,7 @@ frame2 = Frame(root, highlightbackground="#5CD85A", highlightthickness=3)
 frame2.grid(row=row2,column=col2,pady=20)
 
 def print_selection():
-    if (var1.get() == 0) :
+    if (var1.get() == 0 or var1.get() == 1) :
        messagebox.showinfo("Thông báo","Đã chọn giải mã audio ")
        root.destroy()
        call(["python","./ste_in_audio/decode_audio.py"])
