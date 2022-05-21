@@ -22,7 +22,6 @@ from test3 import *
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import os
-root = Tk()
 
 import codecs
 from des import DesKey
