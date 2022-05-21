@@ -1,20 +1,9 @@
+from tkinter import messagebox
 import wave
-
 import numpy as np
 import run_lenght
 import Encrypt_DES
-
-
-# string1 = input('Enter a message: ')
-# def case(a):
-#     if a == 1:
-#         encode()
-#     elif a == 2:
-#         decode()
-#     elif a == 3:
-#         quit()
-#     else:
-#         print("\nEnter valid Choice!")
+import const
 
 def encoded_hiding_audio(source_path, message, pwd, out_path):
     print("\nEncoding Starts..")
@@ -24,6 +13,7 @@ def encoded_hiding_audio(source_path, message, pwd, out_path):
         print("File not accessible")
         return False
     frame_bytes = bytearray(list(audio.readframes(audio.getnframes())))
+    frame_bytes_temp = frame_bytes
     string = run_lenght.encode_message(message)
     print(string)
 
@@ -45,6 +35,7 @@ def encoded_hiding_audio(source_path, message, pwd, out_path):
     newAudio.close()
     audio.close()
     print(" |---->succesfully encoded inside",out_path)
+    messagebox.showinfo("PSNR AUDIO", "PSNR audio là: " + PSNR_Audio(frame_modified1,frame_bytes_temp))
     return True
 
 def decoded_hiding_audio(audio_src, pwd, messages_file_des):
@@ -78,18 +69,13 @@ def decoded_hiding_audio(audio_src, pwd, messages_file_des):
     return True
 
 def PSNR_Audio(original, modified):
-    #print(len(original), len(modified))
+    # print(type(original), type(modified))
     maximum = 255
     size = len(original)
     MSE = np.sum(pow(original[i] - modified[i], 2) for i in range(size))/size
     if MSE == 0:
-        print("no has psnr")
-        quit()
+        return str("No has PSNR")
     else:
         PSNR = 10*np.log10(maximum*maximum/MSE)
-        return PSNR
+        return str(PSNR)
         
-# while(1):
-#     print("\nSelect an option: \n1)Encode\n2)Decode\nPress anything to quit")
-#     val = int(input("\nChoice:"))
-#     case(val)

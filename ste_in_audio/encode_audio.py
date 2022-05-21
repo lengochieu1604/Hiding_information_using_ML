@@ -19,6 +19,8 @@ from setuptools import Command
 import os
 import re
 from hiding_audio import encoded_hiding_audio
+import const
+
 path = "./ste_in_img/"
 root = Tk()
 root.geometry("1050x700")
@@ -137,6 +139,10 @@ l3 = Label(root, text="Nhập Thông Điệp ", bg="#f2f2f2",fg="black",font="(A
 l3.grid(row=2,column=0,pady=50,padx=40)
 messages=Text(root,width=30,height=5)
 messages.grid(row=2,column=1)
+
+# #PSNR
+# title2=Label(root,text="PNSR là: " + const.CONST_psrn, highlightbackground="#7EC8E3", highlightthickness=3,fg="red")
+# title2.grid(row=2,column=3)
 
 # Chooses Encryption Algorithms Messages
 l5 = Label(root, text="Encryption Algorithms Messages", bg="#f2f2f2",fg="red",font="(Arial)",anchor="w",bd=1,relief="solid")
