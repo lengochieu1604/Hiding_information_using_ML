@@ -5,8 +5,9 @@ from PIL import ImageTk,Image
 
 import mysql.connector
 from subprocess import  call
+import os
 
-
+path=os.path.dirname(os.path.abspath(__file__))
 
 root = Tk()
 root.geometry("600x600")
