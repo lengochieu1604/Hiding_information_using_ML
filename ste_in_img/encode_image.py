@@ -73,7 +73,10 @@ def print_selection():
        messagebox.showinfo("","Đã chọn giải mã ảnh ")
        root.destroy()
        call(["python","decode_image.py"])
-    
+def donothing1():
+       messagebox.showinfo("Thông Báo","Đã Chọn Quay Về Home ")
+       root.destroy()
+       call(["python","Menu_main.py"])    
 #frame 2
 row2=10
 col2=1
@@ -232,7 +235,7 @@ def sel():
 menubar = Menu(root)
 
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="New", command=donothing)
+filemenu.add_command(label="Home", command=donothing1)
 filemenu.add_command(label="Open", command=donothing)
 filemenu.add_command(label="Save", command=donothing)
 filemenu.add_command(label="Save as...", command=donothing)

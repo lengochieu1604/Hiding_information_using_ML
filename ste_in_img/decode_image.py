@@ -44,7 +44,10 @@ def save():
     dir_image_1.insert('1.0',fln)
     messagebox.showinfo("","Xuất File text thành công")    
 
-
+def donothing1():
+       messagebox.showinfo("Thông Báo","Đã Chọn Quay Về Home ")
+       root.destroy()
+       call(["python","Menu_main.py"])  
 
 
 
@@ -138,7 +141,7 @@ def sel():
 menubar = Menu(root)
 
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="New", command=donothing)
+filemenu.add_command(label="Home", command=donothing1)
 filemenu.add_command(label="Open", command=donothing)
 filemenu.add_command(label="Save", command=donothing)
 filemenu.add_command(label="Save as...", command=donothing)

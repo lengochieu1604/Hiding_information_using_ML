@@ -22,7 +22,10 @@ path = "./ste_in_img/"
 root = Tk()
 root.geometry("1050x700")
 root.title("DECODE RLE")
-
+def donothing1():
+       messagebox.showinfo("Thông Báo","Đã Chọn Quay Về Home ")
+       root.destroy()
+       call(["python","Menu_main.py"])  
 def print_selection():
     if (var1.get() == 0) :
        messagebox.showinfo("Thông báo","Đã chọn mã hóa audio ")
@@ -75,7 +78,7 @@ def decoded_audio():
 menubar = Menu(root)
 
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="New", command=donothing)
+filemenu.add_command(label="Home", command=donothing1)
 filemenu.add_command(label="Open", command=donothing)
 filemenu.add_command(label="Save", command=donothing)
 filemenu.add_command(label="Save as...", command=donothing)
