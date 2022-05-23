@@ -4,10 +4,8 @@ from turtle import width
 from PIL import ImageTk,Image
 from matplotlib import image
 from matplotlib.pyplot import title
-import mysql.connector
 from subprocess import  call
 from PIL import ImageTk,Image
-import easygui
 from tkinter import filedialog as fd
 from tkinter import ttk
 import ttkbootstrap as ttk
@@ -20,10 +18,7 @@ import os
 import re
 from hiding_audio import encoded_hiding_audio
 import const
-def donothing1():
-       messagebox.showinfo("Thông Báo","Đã Chọn Quay Về Home ")
-       root.destroy()
-       call(["python","Menu_main.py"])  
+
 path = "./ste_in_img/"
 root = Tk()
 root.geometry("1050x700")
@@ -40,10 +35,15 @@ frame2 = Frame(root, highlightbackground="#5CD85A", highlightthickness=3)
 frame2.grid(row=row2,column=col2,pady=20)
 
 def print_selection():
-    if (var1.get() == 0) :
+    if (var1.get() == 0 or var1.get() == 1) :
        messagebox.showinfo("Thông báo","Đã chọn giải mã audio ")
        root.destroy()
        call(["python","./ste_in_audio/decode_audio.py"])
+
+def donothing1():
+       messagebox.showinfo("Thông Báo","Đã Chọn Quay Về Home ")
+       root.destroy()
+       call(["python","Menu_main.py"])  
 
 def donothing():
    filewin = Toplevel(root)
@@ -93,7 +93,8 @@ def encode_audio():
 menubar = Menu(root)
 
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="Home", command=donothing1)
+filemenu.add_command(label="Home",command=donothing1)
+filemenu.add_command(label="New", command=donothing)
 filemenu.add_command(label="Open", command=donothing)
 filemenu.add_command(label="Save", command=donothing)
 filemenu.add_command(label="Save as...", command=donothing)
@@ -198,7 +199,7 @@ btn_open = Button(root,width=10, text="Encoded", fg="red",activebackground = "re
 btn_open.grid(row=18,column=3)
 
 #footer
-load= Image.open("footer.png")
+load= Image.open(path + "footer.png")
 render = ImageTk.PhotoImage(load)
 img = Label(root, image=render)
 img.place(x=-10,y=600)
