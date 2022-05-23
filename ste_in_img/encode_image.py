@@ -95,6 +95,7 @@ def donothing():
    button = Button(filewin, text="Do nothing button")
    button.pack()
 def showimage_en():
+    
     try:
         fln=filedialog.askopenfilename(initialdir=os.getcwd(),title="Lựa chọn ảnh cần mã hóa",
     filetypes = (
@@ -127,20 +128,22 @@ def showimage_en():
     text = password.get()
     signal=signal_en.get()
     
-   
-    
-    if (int(str(var.get()))==1):
-            
-          des = DES.new(text.encode('utf8'), DES.MODE_ECB)
-                    
-          plain_text = pad1(signal)
-          ciphertext = des.encrypt(plain_text.encode())
-          encode_string= base64.b32encode(ciphertext)  
-          print(encode_string)
+    try: 
+     
+        if (int(str(var.get()))==1):
+          
+            des = DES.new(text.encode('utf8'), DES.MODE_ECB)
+                        
+            plain_text = pad1(signal)
+            ciphertext = des.encrypt(plain_text.encode())
+            encode_string= base64.b32encode(ciphertext)  
+            print(encode_string)
 
-          decrypted_string = des.decrypt(ciphertext)
-          print("The decrypted string is : ",decrypted_string.decode())
-          print(" is : ",encode_string.hex())
+            decrypted_string = des.decrypt(ciphertext)
+            print("The decrypted string is : ",decrypted_string.decode())
+            print(" is : ",encode_string.hex())
+    except:
+        messagebox.showinfo(""," Sai độ dài khóa des")   
     encode(fln,encode_string.hex(),'encode_bg20.png')    
     original = cv2.imread(fln)
     compressed = cv2.imread('encode_bg20.png', 1)
@@ -271,54 +274,7 @@ def pad1(text):
     while(len(text) % 8 != 0):
         text += ' '
     return text
-#finish encode
-""" def finish_end():
-    
-    text = password.get()
-    signal=signal_en.get()
-    if(int(str(var1.get()))==1):
-        hashObject = SHA1.new()
-        hashObject.update(text.encode('utf-8'))
-        digest = hashObject.hexdigest()
-        print(digest)
-    elif(int(str(var1.get()))==2):
-        hashObject = SHA256.new()
-        hashObject.update(text.encode('utf-8'))
-        digest = hashObject.hexdigest()
-        print(digest)
-    elif(int(str(var1.get()))==3):
-        hashObject = MD5.new()
-        hashObject.update(text.encode('utf-8'))
-        digest = hashObject.hexdigest()
-        print(digest)
-    elif (int(str(var1.get()))==4):
-        hashObject = SHA512.new()
-        hashObject.update(text.encode('utf-8'))
-        digest = hashObject.hexdigest()
-        print(digest)
-    try:    
-        if(int(str(var.get()))==2):
-            cipher_text = base64.b64decode(signal)
-            decipher = AES.new(text.encode(), AES.MODE_ECB)
-            print(decipher.decrypt(cipher_text)) 
-            
 
-        elif(int(str(var.get()))==1):
-            
-          
-            
-            des = DES.new(text.encode('utf8'), DES.MODE_ECB)
-
-            padded_text = pad(signal.encode('utf8'))
-            encrypted_text = des.encrypt(padded_text)
-            
-            print(encrypted_text)
-            print(des.decrypt(encrypted_text))
-    except:
-        messagebox.showinfo("","Mật Khẩu Không Hợp lệ")
-    
-    encode(dir_image_en_input,signal,'encode_bg20.png')    
-     """
 l1 = Label(root, text="Giấu Tin Trong File Ảnh RLE ", bg="#f2f2f2",fg="red",font="(Arial)")
 l1.grid(row=0,column=1)
 var1 = ttk.IntVar()

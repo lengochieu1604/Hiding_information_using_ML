@@ -115,17 +115,18 @@ def showimage_en():
     signal1=signal_en.get()
     
    
-    
-    if (int(str(var.get()))==1):
-            signal1=decode('encode_bg20.png','')
-            decoded_signature = bytes.fromhex(signal1)
-            des = DES.new(text.encode('utf8'), DES.MODE_ECB)
-            
-            cipher_text = base64.b32decode(decoded_signature)
-            decrypted_string = des.decrypt(cipher_text)
-            print("The decrypted string is : ",decrypted_string.decode())
-            signal.insert(0,decrypted_string.decode())
-            
+    try: 
+        if (int(str(var.get()))==1):
+                signal1=decode('encode_bg20.png','')
+                decoded_signature = bytes.fromhex(signal1)
+                des = DES.new(text.encode('utf8'), DES.MODE_ECB)
+                
+                cipher_text = base64.b32decode(decoded_signature)
+                decrypted_string = des.decrypt(cipher_text)
+                print("The decrypted string is : ",decrypted_string.decode())
+                signal.insert(0,decrypted_string.decode())
+    except:
+         messagebox.showinfo(""," Sai mật khẩu")          
 
 def sel():
    if(int(str(var.get()))==1):
