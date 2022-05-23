@@ -1,1 +1,0 @@
-var1.get() == 1 or var1.get() == 0

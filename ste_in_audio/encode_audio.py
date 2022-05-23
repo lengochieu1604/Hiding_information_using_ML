@@ -40,6 +40,11 @@ def print_selection():
        root.destroy()
        call(["python","./ste_in_audio/decode_audio.py"])
 
+def donothing1():
+       messagebox.showinfo("Thông Báo","Đã Chọn Quay Về Home ")
+       root.destroy()
+       call(["python","./ste_in_img/Menu_main.py"])  
+
 def donothing():
    filewin = Toplevel(root)
    button = Button(filewin, text="Do nothing button")
@@ -88,6 +93,7 @@ def encode_audio():
 menubar = Menu(root)
 
 filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label="Home",command=donothing1)
 filemenu.add_command(label="New", command=donothing)
 filemenu.add_command(label="Open", command=donothing)
 filemenu.add_command(label="Save", command=donothing)
